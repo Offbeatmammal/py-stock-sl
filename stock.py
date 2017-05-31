@@ -1,6 +1,9 @@
 import urllib.request, json, os
 from datetime import datetime
 
+# Note: you will need to create a 'personalParams.py' file
+#       and populate it with the 'apikey' variable and 'st' JSON
+#       as described in the README.md
 from personalParams import *
 
 shortRate = 0.28
