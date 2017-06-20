@@ -40,6 +40,7 @@ To-Do
 - Resiliance: make code more able to handle errors
 - Customize: allow user to enter (and store) tax rates and stock lots
   - will this be a web page that stores data in local storage, or server stored (with login requirement)?
+  - possibly expose the code as an endpoint to return results based on passing parameters
 
 
 ---
