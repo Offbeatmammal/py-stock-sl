@@ -12,7 +12,7 @@ This is just for fun, please talk to your accountant and verify the numbers befo
 
 Requires
 --------
-Developed using: `Python3`
+Developed using: `Python3`, but also tested and planned to remain compatible with `Python2.7`
 
 Users need to have an API key from [Alpha Vantage](http://www.alphavantage.co) which is inserted into the `personalParams.py` file
 

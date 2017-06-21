@@ -1,5 +1,5 @@
 import requests
-from urllib.error import URLError, HTTPError
+#from requests import URLError, HTTPError
 import json, os
 from datetime import datetime
 import sys
