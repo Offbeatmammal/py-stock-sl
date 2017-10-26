@@ -11,6 +11,7 @@ from personalParams import *
 
 shortRate = 0.28
 longRate = 0.15
+function = "TIME_SERIES_DAILY"  # or GLOBAL_QUOTE
 
 # disable SSL warnings. Not really recommended but sometimes AlphaVantage throws them
 requests.packages.urllib3.disable_warnings()
@@ -23,7 +24,7 @@ def subtract_years(dt, years):
     return dt 
 
 def getStock(ticker,apikey):
-    req = requests.get("https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=" + ticker + "&outputSize=compact&apikey=" + apikey, verify=False)
+    req = requests.get("https://www.alphavantage.co/query?function=" + function + "&symbol=" + ticker + "&outputSize=compact&apikey=" + apikey, verify=False)
     try:
         response = req
     except HTTPError as e:
@@ -41,19 +42,27 @@ def getStock(ticker,apikey):
 
 for ws in st:
     data = getStock(ws[0], apikey)
-    sy = data["Realtime Global Securities Quote"]["01. Symbol"]
+    if (function == "TIME_SERIES_DAILY"):
+        sy = data["Meta Data"]["2. Symbol"]
 
-    dt = data["Realtime Global Securities Quote"]["11. Last Updated"]
-    latest = data["Realtime Global Securities Quote"]
+        dt = data["Meta Data"]["3. Last Refreshed"]
+        latest = data["Time Series (Daily)"][dt]
+        open = round(float(latest["1. open"]) * 100) / 100
+        high = round(float(latest["2. high"]) * 100) / 100
+        close = round(float(latest["4. close"]) * 100) / 100
+    else: # assume GLOBAL_QUOTE
+        sy = data["Realtime Global Securities Quote"]["01. Symbol"]
+
+        dt = data["Realtime Global Securities Quote"]["11. Last Updated"]
+        latest = data["Realtime Global Securities Quote"]
+        open = round(float(latest["04. Open (Current Trading Day)"]) * 100) / 100
+        high = round(float(latest["05. High (Current Trading Day)"]) * 100) / 100
+        close = round(float(latest["03. Latest Price"]) * 100) / 100
     
     try:
         dthr = dt.split(' ')[1].split(":")[0]
     except Exception:
         dthr = "16"
-
-    open = round(float(latest["04. Open (Current Trading Day)"]) * 100) / 100
-    high = round(float(latest["05. High (Current Trading Day)"]) * 100) / 100
-    close = round(float(latest["03. Latest Price"]) * 100) / 100
 
     tot = 0
     costShort = 0
