@@ -45,7 +45,7 @@ for ws in st:
     if (function == "TIME_SERIES_DAILY"):
         sy = data["Meta Data"]["2. Symbol"]
 
-        dt = data["Meta Data"]["3. Last Refreshed"]
+        dt = data["Meta Data"]["3. Last Refreshed"].split(' ')[0]
         latest = data["Time Series (Daily)"][dt]
         open = round(float(latest["1. open"]) * 100) / 100
         high = round(float(latest["2. high"]) * 100) / 100
